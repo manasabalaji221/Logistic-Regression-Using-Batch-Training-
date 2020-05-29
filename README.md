@@ -1,0 +1,1 @@
+# Loogistic-Regression-Using-Batch-Training-
