@@ -78,54 +78,7 @@ def accuracy(test, pred):
     return acc
 
 
-def logistic_regression_online(features, y, lr):
-    n_samples, n_features = features.shape
-    weights = np.expand_dims(np.zeros(shape=(n_features)),axis=1)
-    # print(weights.shape)
-    bias = 0
-    grads = []
-    iters=0
-    costs=[]
-    e_list=[]
-    e=1000
-    linear_model = np.dot(features, weights) + bias
-    #### Using sigmoid function for activation function
-    y_predicted = sigmoid(linear_model)
-    #### Finding the gradient , cost function (Cross Entropy)
-    cross_entropy = np.dot(features.T, (y_predicted - y))
-    costs.append(cross_entropy[0])
-    gradient_dw = (1 / n_samples) * np.dot(features.T, (y_predicted - y))
-    grads.append(gradient_dw[0])
-    # print(gradient_dw)
-    # print(cross_entropy[0])
-    db = (1 / n_samples) * np.sum(y_predicted - y)
-    # print('bias',db)
-    # weights -= lr * dw
-    bias -= lr * db
-    # print(gradient)
-    weights -= lr * gradient_dw
-    #### L1 norm of gradient
-    e_l1 = cross_entropy[0] + lr * (weights[0]+weights[1])
-    e_list.append(e_l1)
-    # print(e_l1)
-    # print(weights)
 
-    e = e_l1
-    # print(e_l1)
-    # print('weights',weights)
-    return weights, bias, grads, e_l1, costs, iters
-
-
-def online_train(Xn, Yn, Theta, lr):
-    print(Yn.shape)
-    Loss = Yn - np.dot(Xn, Theta) + (np.dot(Theta.T, Theta) * lr)
-    # print(Loss)
-    # print(Loss.shape)
-    Loss = Loss * (-1)
-    dJ = (np.dot(Xn.T, Loss) * 2) / len(Yn)
-    Theta = Theta - (lr * dJ)
-    # print(Theta)
-    return Theta, dJ
 
 if __name__ == '__main__':
 
@@ -194,7 +147,6 @@ if __name__ == '__main__':
     # predicted_val = predict(xy_train, weights, bias)
     # # print(predicted_val)
 
-    #### Question 1 (Batch training)
     ######## 1a learning rate=1
     print('Batch Training using lr = 1')
     weight_bat1, bias_bat1, grad_bat1, e_l1norm_bat1, cross_entropy_bat1, iters_bat1 = logistic_regression(xy_train, x1, 100000, lr=1)
